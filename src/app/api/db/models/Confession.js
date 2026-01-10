@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const ConfessionSchema = new mongoose.Schema({
-  _id: mongoose.Types.ObjectId,
+  _id: { type: mongoose.Types.ObjectId, auto: true },
   community_id: mongoose.Types.ObjectId,
   content: { type: String, maxlength: 500 },
   created_at: { type: Date, default: Date.now },

@@ -19,26 +19,7 @@ export default function Browse() {
     }
   }, [location, loading]);
 
-  const [communities, setCommunities] = useState([
-    {
-      _id: "1",
-      name: "Sample Community",
-      description: "This is a sample community.",
-      location: { lat: 0, lng: 0 },
-    },
-    {
-      _id: "2",
-      name: "Sample Community",
-      description: "This is a sample community.",
-      location: { lat: 0, lng: 0 },
-    },
-    {
-      _id: "3",
-      name: "Sample Community",
-      description: "This is a sample community.",
-      location: { lat: 0, lng: 0 },
-    },
-  ]);
+  const [communities, setCommunities] = useState([]);
   useEffect(() => {
     if (location) {
       fetch(`/api/communities?lat=${location.lat}&lng=${location.lng}`)

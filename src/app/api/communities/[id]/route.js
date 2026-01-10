@@ -1,20 +1,23 @@
+import Community from "../../db/models/Community";
+import Confession from "../../db/models/Confession";
 import dbConnect from "../../db/mongodb";
-import community from "../../db/models/Community";
 
-// need to add request in the params i believe
-export async function GET() {
+export async function GET(req, res) {
   await dbConnect();
-  const communities = await community.find({}); //need to change this so it finds the specific id
-  return Response.json({ communities });
+  console.log(res);
+  const community = await Community.find({ _id: res.params.id });
+  const confessions = await Confession.find({ community_id: res.params.id });
+  return Response.json({ community, confessions }, { status: 200 });
 }
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    return new Response(null, { status: 204 });
+    const confession = await Confession.create(body);
+    return new Response(JSON.stringify({ confession }), { status: 200 });
   } catch (reason) {
     const message =
       reason instanceof Error ? reason.message : "Unexpected error";
-    return new Response(message, { status: 500 });
+    return new Response(null, { status: 500 });
   }
 }
