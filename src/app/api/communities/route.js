@@ -1,4 +1,7 @@
+import dbConnect from "../db/mongodb";
+
 export async function GET(req, res) {
+  await dbConnect()
   console.log(req, res);
   return new Response(
     JSON.stringify({
