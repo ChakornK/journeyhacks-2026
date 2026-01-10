@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
     "next": "16.1.1",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "prettier": "3.7.4",
     "tailwindcss": "^4"
   }
 }
