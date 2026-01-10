@@ -647,6 +647,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
+  languageName: node
+  linkType: hard
+
 "detect-libc@npm:^2.0.3, detect-libc@npm:^2.1.2":
   version: 2.1.2
   resolution: "detect-libc@npm:2.1.2"
@@ -661,6 +668,13 @@ __metadata:
     graceful-fs: "npm:^4.2.4"
     tapable: "npm:^2.2.0"
   checksum: 10c0/8f6d42c8a0787a746c493e724c9de5d091cfe8e3f871f2464e2f78a6c55fa1a3aaba495334f923c8ea3ac23e1472491f79feef6fc0fb46a75169cb447ffbe2dc
+  languageName: node
+  linkType: hard
+
+"geolib@npm:^3.3.4":
+  version: 3.3.4
+  resolution: "geolib@npm:3.3.4"
+  checksum: 10c0/7e18b28c825ad1bd1e4d4166a991659caaf5c779b73818b8dd00c2d6c60b59b208116c22cb1f93830c03571ac498f09586e77173e223bf56615ddace22d8de51
   languageName: node
   linkType: hard
 
@@ -687,6 +701,9 @@ __metadata:
     "@tailwindcss/postcss": "npm:^4.1.18"
     "@types/node": "npm:25.0.6"
     "@types/react": "npm:19.2.8"
+    date-fns: "npm:^4.1.0"
+    geolib: "npm:^3.3.4"
+    lucide-react: "npm:^0.562.0"
     mongoose: "npm:^9.1.2"
     next: "npm:16.1.1"
     prettier: "npm:3.7.4"
@@ -821,6 +838,15 @@ __metadata:
     lightningcss-win32-x64-msvc:
       optional: true
   checksum: 10c0/5c0c73a33946dab65908d5cd1325df4efa290efb77f940b60f40448b5ab9a87d3ea665ef9bcf00df4209705050ecf2f7ecc649f44d6dfa5905bb50f15717e78d
+  languageName: node
+  linkType: hard
+
+"lucide-react@npm:^0.562.0":
+  version: 0.562.0
+  resolution: "lucide-react@npm:0.562.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/c713a2490916e42c678b9df0d7309d8cdb715af1d7139c7eb49c45547901b276a7cf722548012a668dc0e337eeadf5141d5af8c8fcda6721fc58fb2d288efcba
   languageName: node
   linkType: hard
 
