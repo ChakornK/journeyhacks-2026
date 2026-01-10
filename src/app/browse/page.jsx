@@ -39,7 +39,7 @@ export default function Browse() {
     },
   ]);
   // useEffect(() => {
-  //   fetch("/api/communities")
+  //   fetch(`/api/communities?lat=${location.lat}&lng=${location.lng}`)
   //     .then((res) => res.json())
   //     .then((data) => setCommunities(data.communities));
   // }, []);
@@ -62,12 +62,12 @@ export default function Browse() {
           </button>
         </div>
 
-        <div className="flex flex-col items-stretch gap-1">
+        <div className="mt-4 flex flex-col items-stretch gap-2">
           {communities.map(
             ({ _id, name, description, location: communityLocation }) => (
               <button
                 key={_id}
-                className="mt-4 flex cursor-pointer items-center justify-between rounded-lg border border-neutral-800 bg-neutral-900 p-4 text-left hover:border-emerald-500"
+                className="flex cursor-pointer items-center justify-between rounded-lg border border-neutral-800 bg-neutral-900 p-4 text-left hover:border-emerald-500"
                 onClick={() => {
                   router.push(`/community/${_id}`);
                 }}

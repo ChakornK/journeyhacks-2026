@@ -9,6 +9,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "geolib": "^3.3.4",
     "lucide-react": "^0.562.0",
     "mongoose": "^9.1.2",
