@@ -9,6 +9,8 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "geolib": "^3.3.4",
+    "lucide-react": "^0.562.0",
     "mongoose": "^9.1.2",
     "next": "16.1.1",
     "react": "19.2.3",
