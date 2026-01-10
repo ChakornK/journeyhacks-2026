@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const CommunitySchema = new mongoose.Schema({
-  _id: ObjectId,
+  _id: mongoose.Types.ObjectId,
   name: String,
   description: String,
   location: { lat: Number, lng: Number },

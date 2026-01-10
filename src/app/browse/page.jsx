@@ -39,11 +39,13 @@ export default function Browse() {
       location: { lat: 0, lng: 0 },
     },
   ]);
-  // useEffect(() => {
-  //   fetch(`/api/communities?lat=${location.lat}&lng=${location.lng}`)
-  //     .then((res) => res.json())
-  //     .then((data) => setCommunities(data.communities));
-  // }, []);
+  useEffect(() => {
+    if (location) {
+      fetch(`/api/communities?lat=${location.lat}&lng=${location.lng}`)
+        .then((res) => res.json())
+        .then((data) => setCommunities(data.communities));
+    }
+  }, []);
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [communityName, setCommunityName] = useState("");
