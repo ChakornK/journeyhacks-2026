@@ -7,7 +7,7 @@ import { Header } from "../components/Header";
 import { getDistance } from "geolib";
 import { ChevronRight, MapPin, Plus } from "lucide-react";
 
-export default function Home() {
+export default function Browse() {
   const { location, error, loading, requestLocation, setMockLocation } =
     useContext(GeolocationContext);
   const router = useRouter();
