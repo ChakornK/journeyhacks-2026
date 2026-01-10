@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${lora.variable} ${workSans.variable}${" "}antialiased`}
+        className={`${lora.variable} ${workSans.variable}${" "}font-sans antialiased`}
       >
         <GeolocationContext
           value={{ location, error, loading, requestLocation, setMockLocation }}
