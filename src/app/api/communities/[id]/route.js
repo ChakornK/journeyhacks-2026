@@ -4,7 +4,7 @@ import dbConnect from "../../db/mongodb";
 
 export async function GET(req, res) {
   await dbConnect();
-  const community = await Community.find({ _id: (await res.params).id });
+  const community = await Community.findOne({ _id: (await res.params).id });
   const confessions = await Confession.find({
     community_id: (await res.params).id,
   });
@@ -14,7 +14,10 @@ export async function GET(req, res) {
 export async function POST(req) {
   try {
     const body = await req.json();
-    const confession = await Confession.create(body);
+    const confession = await Confession.create({
+      ...body,
+      community_id: (await req.params).id,
+    });
     return new Response(JSON.stringify({ confession }), { status: 200 });
   } catch (reason) {
     const message =

@@ -10,35 +10,8 @@ import { useEffect, useState } from "react";
 export default function CommunityPage() {
   const { id } = useParams();
 
-  const [community, setCommunity] = useState({
-    _id: "1",
-    name: "Sample Community",
-    description: "This is a sample community.",
-    location: { lat: 0, lng: 0 },
-  });
-  const [confessions, setConfessions] = useState([
-    {
-      _id: "1",
-      community_id: "1",
-      content: "This is a sample confession.",
-      created_at: "2024-01-01T00:00:00Z",
-      likes: 67,
-    },
-    {
-      _id: "2",
-      community_id: "1",
-      content: "This is another sample confession.",
-      created_at: "2024-01-02T00:00:00Z",
-      likes: 45,
-    },
-    {
-      _id: "3",
-      community_id: "1",
-      content: "This is yet another sample confession.",
-      created_at: "2024-01-03T00:00:00Z",
-      likes: 32,
-    },
-  ]);
+  const [community, setCommunity] = useState({});
+  const [confessions, setConfessions] = useState([]);
   useEffect(() => {
     fetch(`/api/communities/${id}`)
       .then((res) => res.json())
