@@ -5,7 +5,7 @@ import { Portal } from "@/app/components/Portal";
 import { formatDistanceToNow } from "date-fns";
 import { Heart, MessagesSquare, Plus, X } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CommunityPage() {
   const { id } = useParams();
@@ -39,14 +39,14 @@ export default function CommunityPage() {
       likes: 32,
     },
   ]);
-  // useEffect(() => {
-  //   fetch(`/api/communities/${id}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setConfessions(data.confessions);
-  //       setCommunity(data.community);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(`/api/communities/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setConfessions(data.confessions);
+        setCommunity(data.community);
+      });
+  }, []);
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [confessionContent, setConfessionContent] = useState("");
@@ -65,7 +65,7 @@ export default function CommunityPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setConfessions((prev) => [data.community, ...prev]);
+        setConfessions((prev) => [data.confession, ...prev]);
       })
       .finally(() => {
         setCreateModalVisible(false);

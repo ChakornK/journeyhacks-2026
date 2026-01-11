@@ -5,7 +5,7 @@ const ConfessionSchema = new mongoose.Schema({
   community_id: mongoose.Types.ObjectId,
   content: { type: String, maxlength: 500 },
   created_at: { type: Date, default: Date.now },
-  likes: Number,
+  likes: { type: Number, default: 0 },
 });
 
 export default mongoose.models.Confession ||
