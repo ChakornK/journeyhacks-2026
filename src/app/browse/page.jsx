@@ -88,7 +88,7 @@ export default function Browse() {
             </div>
 
             <button
-              className="flex cursor-pointer items-center gap-1 rounded-lg bg-emerald-400 px-4 py-3 text-sm font-medium text-black transition-colors hover:bg-emerald-500"
+              className="flex shrink-0 cursor-pointer items-center gap-1 rounded-lg bg-emerald-400 px-4 py-3 text-sm font-medium text-black transition-colors hover:bg-emerald-500"
               onClick={() => {
                 setCreateModalVisible(true);
               }}
@@ -129,7 +129,7 @@ export default function Browse() {
               </APIProvider>
             </div>
 
-            <div className="mt-4 flex flex-col items-stretch gap-2 overflow-y-auto p-8 pt-4">
+            <div className="mt-4 flex max-h-full flex-col items-stretch gap-2 overflow-y-auto pr-4">
               {communities.map(
                 ({ _id, name, description, location: communityLocation }) => (
                   <button
