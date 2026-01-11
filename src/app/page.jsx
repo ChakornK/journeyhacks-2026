@@ -3,6 +3,7 @@
 import { useContext, useEffect } from "react";
 import { GeolocationContext } from "./contexts/GeolocationContext";
 import { useRouter } from "next/navigation";
+import { MapPin } from "lucide-react";
 
 export default function Home() {
   const { location, error, loading, requestLocation, setMockLocation } =
@@ -18,6 +19,15 @@ export default function Home() {
   return (
     <main className="h-dvh flex w-screen flex-col items-center justify-center bg-black p-8 text-center font-sans text-white">
       <div className="flex max-w-md flex-col items-center gap-2">
+        <div className="relative h-32 w-32">
+          <div className="absolute left-0 top-0 flex h-32 w-32 animate-pulse items-center justify-center rounded-full bg-emerald-500/20">
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-emerald-500/20"></div>
+          </div>
+          <div className="absolute left-0 top-0 flex h-32 w-32 items-center justify-center">
+            <MapPin className="h-12 w-12 text-emerald-400" />
+          </div>
+        </div>
+
         <h1 className="font-serif text-4xl font-bold">Dihspr</h1>
         <p className="text-neutral-400">
           Anonymous confessions from your community
