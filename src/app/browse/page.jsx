@@ -1,13 +1,21 @@
 "use client";
 
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { GeolocationContext } from "../contexts/GeolocationContext";
 import { useRouter } from "next/navigation";
 import { Header } from "../components/Header";
 import { getDistance } from "geolib";
 import { ChevronRight, MapPin, Plus, X } from "lucide-react";
 import { Portal } from "../components/Portal";
-import { APIProvider, Map, Marker, useMap } from "@vis.gl/react-google-maps";
+import {
+  AdvancedMarker,
+  APIProvider,
+  InfoWindow,
+  Map,
+  Marker,
+  useAdvancedMarkerRef,
+  useMap,
+} from "@vis.gl/react-google-maps";
 import { GoogleMapsOverlay } from "@deck.gl/google-maps";
 
 export default function Browse() {
@@ -102,9 +110,22 @@ export default function Browse() {
                   disableDefaultUI={true}
                   keyboardShortcuts={false}
                 >
-                  {communities.map(({ _id, location: communityLocation }) => (
-                    <Marker key={_id} position={communityLocation} />
-                  ))}
+                  {communities.map(
+                    ({
+                      _id,
+                      location: communityLocation,
+                      name,
+                      description,
+                    }) => (
+                      <CustomMarker
+                        key={_id}
+                        id={_id}
+                        position={communityLocation}
+                        name={name}
+                        description={description}
+                      />
+                    ),
+                  )}
                 </Map>
               </APIProvider>
             </div>
@@ -114,6 +135,7 @@ export default function Browse() {
                 ({ _id, name, description, location: communityLocation }) => (
                   <button
                     key={_id}
+                    id={`community-${_id}`}
                     className="flex cursor-pointer items-center justify-between rounded-lg border border-neutral-800 bg-neutral-900 p-4 text-left transition-colors hover:border-emerald-500"
                     onClick={() => {
                       router.push(`/community/${_id}`);
@@ -249,3 +271,44 @@ export default function Browse() {
     )
   );
 }
+
+const CustomMarker = ({ position, id, name, description }) => {
+  const [markerRef, marker] = useAdvancedMarkerRef();
+
+  const [infoWindowShown, setInfoWindowShown] = useState(false);
+
+  return (
+    <>
+      <AdvancedMarker
+        ref={markerRef}
+        position={position}
+        onMouseEnter={() => setInfoWindowShown(true)}
+        onMouseLeave={() => setInfoWindowShown(false)}
+        onClick={() => {
+          document.querySelectorAll("[id^='community-']").forEach((el) => {
+            el.style.borderColor = "";
+          });
+          const el = document.getElementById(`community-${id}`);
+          if (el) {
+            el.style.borderColor = "#00bc7d";
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }}
+      />
+
+      {infoWindowShown && (
+        <InfoWindow
+          anchor={marker}
+          headerDisabled={true}
+          minWidth={200}
+          style={{
+            color: "#171717",
+          }}
+        >
+          <h2 className="text-lg font-semibold">{name}</h2>
+          <p>{description}</p>
+        </InfoWindow>
+      )}
+    </>
+  );
+};
