@@ -28,7 +28,7 @@ export default function Home() {
           </div>
         </div>
 
-        <h1 className="font-serif text-4xl font-bold">Dihspr</h1>
+        <h1 className="font-serif text-4xl font-bold">Whisper</h1>
         <p className="text-neutral-400">
           Anonymous confessions from your community
         </p>
