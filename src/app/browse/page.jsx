@@ -129,7 +129,7 @@ export default function Browse() {
               </APIProvider>
             </div>
 
-            <div className="flex h-full min-h-0 flex-col items-stretch gap-2 overflow-y-auto pr-4">
+            <div className="flex h-full min-h-0 flex-col items-stretch gap-2 overflow-y-auto pl-4 pr-4 pt-4 sm:pl-0 sm:pt-0">
               {communities.map(
                 ({ _id, name, description, location: communityLocation }) => (
                   <button
