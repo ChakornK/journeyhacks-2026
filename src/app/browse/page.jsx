@@ -166,7 +166,7 @@ export default function Browse() {
                             };
                           }
 
-                          const t = Math.min(0.25, dist * 0.1) * 5; // ease out pos
+                          const t = 0.25; // ease out pos
                           const zt = 0.12; // ease out zoom
 
                           requestAnimationFrame(l);
