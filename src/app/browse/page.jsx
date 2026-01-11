@@ -12,11 +12,8 @@ import {
   APIProvider,
   InfoWindow,
   Map,
-  Marker,
   useAdvancedMarkerRef,
-  useMap,
 } from "@vis.gl/react-google-maps";
-import { GoogleMapsOverlay } from "@deck.gl/google-maps";
 
 export default function Browse() {
   const { location, error, loading, requestLocation, setMockLocation } =
@@ -73,6 +70,8 @@ export default function Browse() {
     center: location || { lat: 0, lng: 0 },
     zoom: 13,
   });
+
+  const [mapTweenId, setMapTweenId] = useState(0);
 
   return (
     location && (
@@ -141,7 +140,10 @@ export default function Browse() {
                       router.push(`/community/${_id}`);
                     }}
                     onMouseEnter={() => {
+                      const id = mapTweenId;
+                      setMapTweenId(mapTweenId + 1);
                       const l = () => {
+                        if (mapTweenId - id > 1) return;
                         setCamera((c) => {
                           const cur = c.center;
                           const dx = communityLocation.lat - cur.lat;
