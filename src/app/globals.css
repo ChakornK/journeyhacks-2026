@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+html {
+  @apply bg-black;
+}
 * {
   @apply tracking-tight;
 }
