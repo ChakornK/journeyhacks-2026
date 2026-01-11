@@ -9,16 +9,16 @@ export const useGeolocation = () => {
     loading: false,
   });
 
-  useEffect(() => {
-    const cached = localStorage.getItem(KEY);
-    if (cached) {
-      setState({
-        location: JSON.parse(cached),
-        error: null,
-        loading: false,
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   const cached = localStorage.getItem(KEY);
+  //   if (cached) {
+  //     setState({
+  //       location: JSON.parse(cached),
+  //       error: null,
+  //       loading: false,
+  //     });
+  //   }
+  // }, []);
 
   const requestLocation = useCallback(() => {
     if (!navigator.geolocation) {
@@ -28,6 +28,15 @@ export const useGeolocation = () => {
         loading: false,
       });
       return;
+    }
+
+    const cached = localStorage.getItem(KEY);
+    if (cached) {
+      setState({
+        location: JSON.parse(cached),
+        error: null,
+        loading: false,
+      });
     }
 
     setState((s) => ({ ...s, loading: true, error: null }));
