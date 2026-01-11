@@ -1,12 +1,14 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { GeolocationContext } from "../contexts/GeolocationContext";
 import { useRouter } from "next/navigation";
 import { Header } from "../components/Header";
 import { getDistance } from "geolib";
 import { ChevronRight, MapPin, Plus, X } from "lucide-react";
 import { Portal } from "../components/Portal";
+import { APIProvider, Map, Marker, useMap } from "@vis.gl/react-google-maps";
+import { GoogleMapsOverlay } from "@deck.gl/google-maps";
 
 export default function Browse() {
   const { location, error, loading, requestLocation, setMockLocation } =
@@ -59,13 +61,18 @@ export default function Browse() {
       });
   };
 
+  const [camera, setCamera] = useState({
+    center: location || { lat: 0, lng: 0 },
+    zoom: 13,
+  });
+
   return (
     location && (
       <>
-        <main className="h-dvh flex w-screen flex-col bg-black p-8 font-sans text-white">
+        <main className="h-dvh flex w-screen flex-col bg-black font-sans text-white">
           <Header />
 
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between p-8 pb-4">
             <div>
               <p className="text-2xl font-medium">Browse nearby communities</p>
               <p className="text-sm text-neutral-400">
@@ -83,43 +90,98 @@ export default function Browse() {
             </button>
           </div>
 
-          <div className="mt-4 flex flex-col items-stretch gap-2">
-            {communities.map(
-              ({ _id, name, description, location: communityLocation }) => (
-                <button
-                  key={_id}
-                  className="flex cursor-pointer items-center justify-between rounded-lg border border-neutral-800 bg-neutral-900 p-4 text-left transition-colors hover:border-emerald-500"
-                  onClick={() => {
-                    router.push(`/community/${_id}`);
-                  }}
+          <div className="grid grow grid-rows-2 sm:grid-cols-2 sm:grid-rows-1">
+            <div className="overflow-hidden sm:m-4 sm:rounded-lg">
+              <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+                <Map
+                  mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID}
+                  renderingType="VECTOR"
+                  colorScheme="DARK"
+                  {...camera}
+                  onCameraChanged={(e) => setCamera(e.detail)}
+                  disableDefaultUI={true}
+                  keyboardShortcuts={false}
                 >
-                  <div className="flex flex-col">
-                    <p className="text-lg font-medium">{name}</p>
-                    <p className="text-sm text-neutral-400">{description}</p>
-                    <div className="mt-1 flex items-center gap-1 text-xs text-neutral-400">
-                      <MapPin size={16} />
-                      <p>
-                        {Math.ceil(
-                          getDistance(
-                            {
-                              latitude: communityLocation.lat,
-                              longitude: communityLocation.lng,
-                            },
-                            {
-                              latitude: location.lat,
-                              longitude: location.lng,
-                            },
-                          ) / 1000,
-                        )}{" "}
-                        km away
-                      </p>
-                    </div>
-                  </div>
+                  {communities.map(({ _id, location: communityLocation }) => (
+                    <Marker key={_id} position={communityLocation} />
+                  ))}
+                </Map>
+              </APIProvider>
+            </div>
 
-                  <ChevronRight size={24} className="text-neutral-400" />
-                </button>
-              ),
-            )}
+            <div className="mt-4 flex flex-col items-stretch gap-2 overflow-y-auto p-8 pt-4">
+              {communities.map(
+                ({ _id, name, description, location: communityLocation }) => (
+                  <button
+                    key={_id}
+                    className="flex cursor-pointer items-center justify-between rounded-lg border border-neutral-800 bg-neutral-900 p-4 text-left transition-colors hover:border-emerald-500"
+                    onClick={() => {
+                      router.push(`/community/${_id}`);
+                    }}
+                    onMouseEnter={() => {
+                      const l = () => {
+                        setCamera((c) => {
+                          const cur = c.center;
+                          const dx = communityLocation.lat - cur.lat;
+                          const dy = communityLocation.lng - cur.lng;
+                          const dist = Math.hypot(dx, dy);
+
+                          const dz = 13 - c.zoom;
+
+                          if (dist <= 0.01 && Math.abs(dz) <= 0.01) {
+                            return {
+                              ...c,
+                              center: communityLocation,
+                              zoom: 13,
+                            };
+                          }
+
+                          const t = Math.min(0.25, dist * 0.1); // ease out pos
+                          const zt = 0.12; // ease out zoom
+
+                          requestAnimationFrame(l);
+
+                          return {
+                            ...c,
+                            center: {
+                              lat: cur.lat + dx * t,
+                              lng: cur.lng + dy * t,
+                            },
+                            zoom: c.zoom + dz * zt,
+                          };
+                        });
+                      };
+                      l();
+                    }}
+                  >
+                    <div className="flex flex-col">
+                      <p className="text-lg font-medium">{name}</p>
+                      <p className="text-sm text-neutral-400">{description}</p>
+                      <div className="mt-1 flex items-center gap-1 text-xs text-neutral-400">
+                        <MapPin size={16} />
+                        <p>
+                          {Math.ceil(
+                            getDistance(
+                              {
+                                latitude: communityLocation.lat,
+                                longitude: communityLocation.lng,
+                              },
+                              {
+                                latitude: location.lat,
+                                longitude: location.lng,
+                              },
+                            ) / 1000,
+                          )}{" "}
+                          km away
+                        </p>
+                      </div>
+                    </div>
+
+                    <ChevronRight size={24} className="text-neutral-400" />
+                  </button>
+                ),
+              )}
+            </div>
           </div>
         </main>
         <Portal>
