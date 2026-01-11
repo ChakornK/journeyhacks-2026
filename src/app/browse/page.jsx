@@ -97,8 +97,8 @@ export default function Browse() {
             </button>
           </div>
 
-          <div className="grid grow grid-rows-2 sm:grid-cols-2 sm:grid-rows-1">
-            <div className="overflow-hidden sm:m-4 sm:rounded-lg">
+          <div className="grid min-h-0 grow grid-rows-2 sm:grid-cols-2 sm:grid-rows-1">
+            <div className="overflow-hidden sm:m-4 sm:mt-0 sm:rounded-lg">
               <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
                 <Map
                   mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID}
@@ -129,7 +129,7 @@ export default function Browse() {
               </APIProvider>
             </div>
 
-            <div className="mt-4 flex max-h-full flex-col items-stretch gap-2 overflow-y-auto pr-4">
+            <div className="flex h-full min-h-0 flex-col items-stretch gap-2 overflow-y-auto pr-4">
               {communities.map(
                 ({ _id, name, description, location: communityLocation }) => (
                   <button
