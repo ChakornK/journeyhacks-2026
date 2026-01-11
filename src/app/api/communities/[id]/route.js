@@ -11,12 +11,12 @@ export async function GET(req, res) {
   return Response.json({ community, confessions }, { status: 200 });
 }
 
-export async function POST(req) {
+export async function POST(req, res) {
   try {
     const body = await req.json();
     const confession = await Confession.create({
       ...body,
-      community_id: (await req.params).id,
+      community_id: (await res.params).id,
     });
     return new Response(JSON.stringify({ confession }), { status: 200 });
   } catch (reason) {
