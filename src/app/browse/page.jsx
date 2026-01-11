@@ -140,6 +140,12 @@ export default function Browse() {
                       router.push(`/community/${_id}`);
                     }}
                     onMouseEnter={() => {
+                      document
+                        .querySelectorAll("[id^='community-']")
+                        .forEach((el) => {
+                          el.style.borderColor = "";
+                        });
+
                       const id = mapTweenId;
                       setMapTweenId(mapTweenId + 1);
                       const l = () => {
