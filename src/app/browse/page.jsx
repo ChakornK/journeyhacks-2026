@@ -158,7 +158,7 @@ export default function Browse() {
 
                           const dz = 13 - c.zoom;
 
-                          if (dist <= 0.01 && Math.abs(dz) <= 0.01) {
+                          if (dist <= 0.05 && Math.abs(dz) <= 0.05) {
                             return {
                               ...c,
                               center: communityLocation,
@@ -166,7 +166,7 @@ export default function Browse() {
                             };
                           }
 
-                          const t = Math.min(0.25, dist * 0.1); // ease out pos
+                          const t = Math.min(0.25, dist * 0.1) * 5; // ease out pos
                           const zt = 0.12; // ease out zoom
 
                           requestAnimationFrame(l);
