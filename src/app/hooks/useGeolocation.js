@@ -1,4 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+
+const KEY = "geo-cache";
 
 export const useGeolocation = () => {
   const [state, setState] = useState({
@@ -7,45 +9,48 @@ export const useGeolocation = () => {
     loading: false,
   });
 
+  useEffect(() => {
+    const cached = localStorage.getItem(KEY);
+    if (cached) {
+      setState({
+        location: JSON.parse(cached),
+        error: null,
+        loading: false,
+      });
+    }
+  }, []);
+
   const requestLocation = useCallback(() => {
     if (!navigator.geolocation) {
       setState({
         location: null,
-        error: "Geolocation is not supported by your browser",
+        error: "geolocation not supported",
         loading: false,
       });
       return;
     }
 
-    setState((prev) => ({ ...prev, loading: true, error: null }));
+    setState((s) => ({ ...s, loading: true, error: null }));
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      (pos) => {
+        const location = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        };
+
+        localStorage.setItem(KEY, JSON.stringify(location));
+
         setState({
-          location: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
+          location,
           error: null,
           loading: false,
         });
       },
-      (error) => {
-        let errorMessage = "Failed to get location";
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            errorMessage = "Location access was denied";
-            break;
-          case error.POSITION_UNAVAILABLE:
-            errorMessage = "Location information is unavailable";
-            break;
-          case error.TIMEOUT:
-            errorMessage = "Location request timed out";
-            break;
-        }
+      (err) => {
         setState({
           location: null,
-          error: errorMessage,
+          error: "location failed",
           loading: false,
         });
       },
@@ -57,8 +62,5 @@ export const useGeolocation = () => {
     );
   }, []);
 
-  return {
-    ...state,
-    requestLocation,
-  };
+  return { ...state, requestLocation };
 };
