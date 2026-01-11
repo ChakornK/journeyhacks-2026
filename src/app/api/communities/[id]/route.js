@@ -4,9 +4,10 @@ import dbConnect from "../../db/mongodb";
 
 export async function GET(req, res) {
   await dbConnect();
-  await res.params;
-  const community = await Community.find({ _id: res.params.id });
-  const confessions = await Confession.find({ community_id: res.params.id });
+  const community = await Community.find({ _id: (await res.params).id });
+  const confessions = await Confession.find({
+    community_id: (await res.params).id,
+  });
   return Response.json({ community, confessions }, { status: 200 });
 }
 
